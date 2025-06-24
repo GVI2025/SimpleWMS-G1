@@ -12,7 +12,7 @@ router = APIRouter(prefix="/implantations", tags=["Implantations"])
 def list_implantations(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return implantation_service.list_implantations(db, skip, limit)
 
-@router.post("/", response_model=ImplantationRead)
+@router.post("/", response_model=ImplantationRead, status_code=201)
 def create_implantation(implantation: ImplantationCreate, db: Session = Depends(get_db)):
     return implantation_service.create_implantation(db, implantation)
 

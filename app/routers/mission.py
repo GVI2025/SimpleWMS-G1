@@ -12,7 +12,7 @@ router = APIRouter(prefix="/missions", tags=["Missions"])
 def list_missions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return mission_service.list_missions(db, skip, limit)
 
-@router.post("/", response_model=MissionRead)
+@router.post("/", response_model=MissionRead, status_code=201)
 def create_mission(mission: MissionCreate, db: Session = Depends(get_db)):
     return mission_service.create_mission(db, mission)
 

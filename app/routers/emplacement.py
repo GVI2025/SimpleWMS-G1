@@ -12,7 +12,7 @@ router = APIRouter(prefix="/emplacements", tags=["Emplacements"])
 def list_emplacements(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return emplacement_service.list_emplacements(db, skip, limit)
 
-@router.post("/", response_model=EmplacementRead)
+@router.post("/", response_model=EmplacementRead, status_code=201)
 def create_emplacement(emplacement: EmplacementCreate, db: Session = Depends(get_db)):
     existing = emplacement_service.get_emplacement_by_code(db, emplacement.code)
     if existing:

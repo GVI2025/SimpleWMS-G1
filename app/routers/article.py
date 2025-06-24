@@ -12,7 +12,7 @@ router = APIRouter(prefix="/articles", tags=["Articles"])
 def list_articles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return article_service.list_articles(db, skip, limit)
 
-@router.post("/", response_model=ArticleRead)
+@router.post("/", response_model=ArticleRead, status_code=201)
 def create_article(article: ArticleCreate, db: Session = Depends(get_db)):
     existing = article_service.get_article_by_sku(db, article.sku)
     if existing:

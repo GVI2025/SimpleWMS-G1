@@ -12,7 +12,7 @@ router = APIRouter(prefix="/receptions", tags=["Réceptions"])
 def list_receptions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return reception_service.list_receptions(db, skip, limit)
 
-@router.post("/", response_model=ReceptionRead)
+@router.post("/", response_model=ReceptionRead, status_code=201)
 def create_reception(reception: ReceptionCreate, db: Session = Depends(get_db)):
     return reception_service.create_reception(db, reception)
 

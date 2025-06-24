@@ -12,7 +12,7 @@ router = APIRouter(prefix="/commandes", tags=["Commandes"])
 def list_commandes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return commande_service.list_commandes(db, skip, limit)
 
-@router.post("/", response_model=CommandeRead)
+@router.post("/", response_model=CommandeRead, status_code=201)
 def create_commande(commande: CommandeCreate, db: Session = Depends(get_db)):
     existing = commande_service.get_commande_by_reference(db, commande.reference)
     if existing:

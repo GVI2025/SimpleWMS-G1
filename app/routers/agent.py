@@ -12,7 +12,7 @@ router = APIRouter(prefix="/agents", tags=["Agents"])
 def list_agents(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return agent_service.list_agents(db, skip, limit)
 
-@router.post("/", response_model=AgentRead)
+@router.post("/", response_model=AgentRead, status_code=201)
 def create_agent(agent: AgentCreate, db: Session = Depends(get_db)):
     existing = agent_service.get_agent_by_email(db, agent.email)
     if existing:
