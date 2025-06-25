@@ -74,7 +74,7 @@ class TestCommandeRouter:
         mock_list_commandes.return_value = mock_commande_list
 
         # Test the endpoint
-        response = client.get("/commandes/")
+        response = client.get("/api/v1/commandes/")
 
         # Verify response
         assert response.status_code == 200
@@ -91,7 +91,7 @@ class TestCommandeRouter:
         mock_create_commande.return_value = mock_commande_model
 
         # Test the endpoint
-        response = client.post("/commandes/", json={
+        response = client.post("/api/v1/commandes/", json={
             "reference": "CMD001",
             "etat": "Brouillon",
             "lignes": [
@@ -103,7 +103,7 @@ class TestCommandeRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["reference"] == "CMD001"
 
         # Verify service functions were called correctly
@@ -116,7 +116,7 @@ class TestCommandeRouter:
         mock_get_by_reference.return_value = mock_commande_model
 
         # Test the endpoint
-        response = client.post("/commandes/", json={
+        response = client.post("/api/v1/commandes/", json={
             "reference": "CMD001",
             "etat": "Brouillon",
             "lignes": [
@@ -137,7 +137,7 @@ class TestCommandeRouter:
         mock_get_commande.return_value = mock_commande_model
 
         # Test the endpoint
-        response = client.get(f"/commandes/{mock_commande_data['id']}")
+        response = client.get(f"/api/v1/commandes/{mock_commande_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -152,7 +152,7 @@ class TestCommandeRouter:
         mock_get_commande.return_value = None
 
         # Test the endpoint
-        response = client.get("/commandes/nonexistent")
+        response = client.get("/api/v1/commandes/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -167,7 +167,7 @@ class TestCommandeRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/commandes/{mock_commande_data['id']}",
+            f"/api/v1/commandes/{mock_commande_data['id']}",
             json={
                 "reference": "CMD001",
                 "etat": "Réservée"
@@ -188,7 +188,7 @@ class TestCommandeRouter:
 
         # Test the endpoint
         response = client.put(
-            "/commandes/nonexistent",
+            "/api/v1/commandes/nonexistent",
             json={
                 "reference": "CMD001",
                 "etat": "Réservée"
@@ -205,7 +205,7 @@ class TestCommandeRouter:
         mock_delete_commande.return_value = mock_commande_model
 
         # Test the endpoint
-        response = client.delete(f"/commandes/{mock_commande_data['id']}")
+        response = client.delete(f"/api/v1/commandes/{mock_commande_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -220,7 +220,7 @@ class TestCommandeRouter:
         mock_delete_commande.return_value = None
 
         # Test the endpoint
-        response = client.delete("/commandes/nonexistent")
+        response = client.delete("/api/v1/commandes/nonexistent")
 
         # Verify response
         assert response.status_code == 404

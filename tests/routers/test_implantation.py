@@ -63,7 +63,7 @@ class TestImplantationRouter:
         mock_list_implantations.return_value = mock_implantation_list
 
         # Test the endpoint
-        response = client.get("/implantations/")
+        response = client.get("/api/v1/implantations/")
 
         # Verify response
         assert response.status_code == 200
@@ -78,7 +78,7 @@ class TestImplantationRouter:
         mock_create_implantation.return_value = mock_implantation_model
 
         # Test the endpoint
-        response = client.post("/implantations/", json={
+        response = client.post("/api/v1/implantations/", json={
             "article_id": "A12345",
             "emplacement_id": "E12345",
             "quantite": 50,
@@ -86,7 +86,7 @@ class TestImplantationRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["article_id"] == "A12345"
         assert response.json()["quantite"] == 50
 
@@ -99,7 +99,7 @@ class TestImplantationRouter:
         mock_get_implantation.return_value = mock_implantation_model
 
         # Test the endpoint
-        response = client.get(f"/implantations/{mock_implantation_data['id']}")
+        response = client.get(f"/api/v1/implantations/{mock_implantation_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -114,7 +114,7 @@ class TestImplantationRouter:
         mock_get_implantation.return_value = None
 
         # Test the endpoint
-        response = client.get("/implantations/nonexistent")
+        response = client.get("/api/v1/implantations/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -130,7 +130,7 @@ class TestImplantationRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/implantations/{mock_implantation_data['id']}",
+            f"/api/v1/implantations/{mock_implantation_data['id']}",
             json={
                 "article_id": "A12345",
                 "emplacement_id": "E12345",
@@ -154,7 +154,7 @@ class TestImplantationRouter:
 
         # Test the endpoint
         response = client.put(
-            "/implantations/nonexistent",
+            "/api/v1/implantations/nonexistent",
             json={
                 "article_id": "A12345",
                 "emplacement_id": "E12345",
@@ -173,7 +173,7 @@ class TestImplantationRouter:
         mock_delete_implantation.return_value = mock_implantation_model
 
         # Test the endpoint
-        response = client.delete(f"/implantations/{mock_implantation_data['id']}")
+        response = client.delete(f"/api/v1/implantations/{mock_implantation_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -188,7 +188,7 @@ class TestImplantationRouter:
         mock_delete_implantation.return_value = None
 
         # Test the endpoint
-        response = client.delete("/implantations/nonexistent")
+        response = client.delete("/api/v1/implantations/nonexistent")
 
         # Verify response
         assert response.status_code == 404

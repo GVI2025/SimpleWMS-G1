@@ -63,7 +63,7 @@ class TestEmplacementRouter:
         mock_list_emplacements.return_value = mock_emplacement_list
 
         # Test the endpoint
-        response = client.get("/emplacements/")
+        response = client.get("/api/v1/emplacements/")
 
         # Verify response
         assert response.status_code == 200
@@ -80,7 +80,7 @@ class TestEmplacementRouter:
         mock_create_emplacement.return_value = mock_emplacement_model
 
         # Test the endpoint
-        response = client.post("/emplacements/", json={
+        response = client.post("/api/v1/emplacements/", json={
             "code": "E001",
             "type": "Zone de stockage",
             "capacite_poids_kg": 1000.0,
@@ -88,7 +88,7 @@ class TestEmplacementRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["code"] == "E001"
         assert response.json()["type"] == "Zone de stockage"
         assert response.json()["capacite_poids_kg"] == 1000.0
@@ -103,7 +103,7 @@ class TestEmplacementRouter:
         mock_get_by_code.return_value = mock_emplacement_model
 
         # Test the endpoint
-        response = client.post("/emplacements/", json={
+        response = client.post("/api/v1/emplacements/", json={
             "code": "E001",
             "type": "Zone de stockage",
             "capacite_poids_kg": 1000.0,
@@ -120,7 +120,7 @@ class TestEmplacementRouter:
         mock_get_emplacement.return_value = mock_emplacement_model
 
         # Test the endpoint
-        response = client.get(f"/emplacements/{mock_emplacement_data['id']}")
+        response = client.get(f"/api/v1/emplacements/{mock_emplacement_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -135,7 +135,7 @@ class TestEmplacementRouter:
         mock_get_emplacement.return_value = None
 
         # Test the endpoint
-        response = client.get("/emplacements/nonexistent")
+        response = client.get("/api/v1/emplacements/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -151,7 +151,7 @@ class TestEmplacementRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/emplacements/{mock_emplacement_data['id']}",
+            f"/api/v1/emplacements/{mock_emplacement_data['id']}",
             json={
                 "code": "E001",
                 "type": "Zone de réservation",
@@ -175,7 +175,7 @@ class TestEmplacementRouter:
 
         # Test the endpoint
         response = client.put(
-            "/emplacements/nonexistent",
+            "/api/v1/emplacements/nonexistent",
             json={
                 "code": "E001",
                 "type": "Zone de réservation",
@@ -194,7 +194,7 @@ class TestEmplacementRouter:
         mock_delete_emplacement.return_value = mock_emplacement_model
 
         # Test the endpoint
-        response = client.delete(f"/emplacements/{mock_emplacement_data['id']}")
+        response = client.delete(f"/api/v1/emplacements/{mock_emplacement_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -209,7 +209,7 @@ class TestEmplacementRouter:
         mock_delete_emplacement.return_value = None
 
         # Test the endpoint
-        response = client.delete("/emplacements/nonexistent")
+        response = client.delete("/api/v1/emplacements/nonexistent")
 
         # Verify response
         assert response.status_code == 404

@@ -56,7 +56,7 @@ class TestAgentRouter:
         mock_list_agents.return_value = mock_agent_list
 
         # Test the endpoint
-        response = client.get("/agents/")
+        response = client.get("/api/v1/agents/")
 
         # Verify response
         assert response.status_code == 200
@@ -75,13 +75,13 @@ class TestAgentRouter:
         mock_create_agent.return_value = mock_agent_model
 
         # Test the endpoint
-        response = client.post("/agents/", json={
+        response = client.post("/api/v1/agents/", json={
             "nom": "Dupont",
             "email": "jean.dupont@example.com"
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["email"] == mock_agent_data["email"]
 
         # Verify service functions were called correctly
@@ -94,7 +94,7 @@ class TestAgentRouter:
         mock_get_by_email.return_value = mock_agent_model
 
         # Test the endpoint
-        response = client.post("/agents/", json={
+        response = client.post("/api/v1/agents/", json={
             "nom": "Dupont",
             "email": "jean.dupont@example.com"
         })
@@ -109,7 +109,7 @@ class TestAgentRouter:
         mock_get_agent.return_value = mock_agent_model
 
         # Test the endpoint
-        response = client.get(f"/agents/{mock_agent_data['id']}")
+        response = client.get(f"/api/v1/agents/{mock_agent_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -124,7 +124,7 @@ class TestAgentRouter:
         mock_get_agent.return_value = None
 
         # Test the endpoint
-        response = client.get("/agents/nonexistent")
+        response = client.get("/api/v1/agents/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -140,7 +140,7 @@ class TestAgentRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/agents/{mock_agent_data['id']}",
+            f"/api/v1/agents/{mock_agent_data['id']}",
             json={
                 "nom": "Dupont-Updated",
                 "email": "jean.dupont@example.com",
@@ -163,7 +163,7 @@ class TestAgentRouter:
 
         # Test the endpoint
         response = client.put(
-            "/agents/nonexistent",
+            "/api/v1/agents/nonexistent",
             json={
                 "nom": "Dupont-Updated",
                 "email": "jean.dupont@example.com",
@@ -181,7 +181,7 @@ class TestAgentRouter:
         mock_delete_agent.return_value = mock_agent_model
 
         # Test the endpoint
-        response = client.delete(f"/agents/{mock_agent_data['id']}")
+        response = client.delete(f"/api/v1/agents/{mock_agent_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -196,7 +196,7 @@ class TestAgentRouter:
         mock_delete_agent.return_value = None
 
         # Test the endpoint
-        response = client.delete("/agents/nonexistent")
+        response = client.delete("/api/v1/agents/nonexistent")
 
         # Verify response
         assert response.status_code == 404

@@ -76,7 +76,7 @@ class TestArticleRouter:
         mock_list_articles.return_value = mock_article_list
 
         # Test the endpoint
-        response = client.get("/articles/")
+        response = client.get("/api/v1/articles/")
 
         # Verify response
         assert response.status_code == 200
@@ -93,7 +93,7 @@ class TestArticleRouter:
         mock_create_article.return_value = mock_article_model
 
         # Test the endpoint
-        response = client.post("/articles/", json={
+        response = client.post("/api/v1/articles/", json={
             "sku": "ART001",
             "designation": "Article Test",
             "categorie": "Produit fini",
@@ -103,7 +103,7 @@ class TestArticleRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["sku"] == "ART001"
 
         # Verify service functions were called correctly
@@ -116,7 +116,7 @@ class TestArticleRouter:
         mock_get_by_sku.return_value = mock_article_model
 
         # Test the endpoint
-        response = client.post("/articles/", json={
+        response = client.post("/api/v1/articles/", json={
             "sku": "ART001",
             "designation": "Article Test",
             "categorie": "Produit fini",
@@ -135,7 +135,7 @@ class TestArticleRouter:
         mock_get_article.return_value = mock_article_model
 
         # Test the endpoint
-        response = client.get(f"/articles/{mock_article_data['id']}")
+        response = client.get(f"/api/v1/articles/{mock_article_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -150,7 +150,7 @@ class TestArticleRouter:
         mock_get_article.return_value = None
 
         # Test the endpoint
-        response = client.get("/articles/nonexistent")
+        response = client.get("/api/v1/articles/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -166,7 +166,7 @@ class TestArticleRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/articles/{mock_article_data['id']}",
+            f"/api/v1/articles/{mock_article_data['id']}",
             json={
                 "sku": "ART001",
                 "designation": "Article Test Updated",
@@ -192,7 +192,7 @@ class TestArticleRouter:
 
         # Test the endpoint
         response = client.put(
-            "/articles/nonexistent",
+            "/api/v1/articles/nonexistent",
             json={
                 "sku": "ART001",
                 "designation": "Article Test Updated",
@@ -213,7 +213,7 @@ class TestArticleRouter:
         mock_delete_article.return_value = mock_article_model
 
         # Test the endpoint
-        response = client.delete(f"/articles/{mock_article_data['id']}")
+        response = client.delete(f"/api/v1/articles/{mock_article_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -228,7 +228,7 @@ class TestArticleRouter:
         mock_delete_article.return_value = None
 
         # Test the endpoint
-        response = client.delete("/articles/nonexistent")
+        response = client.delete("/api/v1/articles/nonexistent")
 
         # Verify response
         assert response.status_code == 404

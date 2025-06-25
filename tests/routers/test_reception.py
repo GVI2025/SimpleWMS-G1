@@ -72,7 +72,7 @@ class TestReceptionRouter:
         mock_list_receptions.return_value = mock_reception_list
 
         # Test the endpoint
-        response = client.get("/receptions/")
+        response = client.get("/api/v1/receptions/")
 
         # Verify response
         assert response.status_code == 200
@@ -87,7 +87,7 @@ class TestReceptionRouter:
         mock_create_reception.return_value = mock_reception_model
 
         # Test the endpoint
-        response = client.post("/receptions/", json={
+        response = client.post("/api/v1/receptions/", json={
             "article_id": "A12345",
             "quantite": 50,
             "fournisseur": "Fournisseur Test",
@@ -96,7 +96,7 @@ class TestReceptionRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["article_id"] == "A12345"
         assert response.json()["quantite"] == 50
         assert response.json()["fournisseur"] == "Fournisseur Test"
@@ -110,7 +110,7 @@ class TestReceptionRouter:
         mock_get_reception.return_value = mock_reception_model
 
         # Test the endpoint
-        response = client.get(f"/receptions/{mock_reception_data['id']}")
+        response = client.get(f"/api/v1/receptions/{mock_reception_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -125,7 +125,7 @@ class TestReceptionRouter:
         mock_get_reception.return_value = None
 
         # Test the endpoint
-        response = client.get("/receptions/nonexistent")
+        response = client.get("/api/v1/receptions/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -141,7 +141,7 @@ class TestReceptionRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/receptions/{mock_reception_data['id']}",
+            f"/api/v1/receptions/{mock_reception_data['id']}",
             json={
                 "article_id": "A12345",
                 "quantite": 75,
@@ -166,7 +166,7 @@ class TestReceptionRouter:
 
         # Test the endpoint
         response = client.put(
-            "/receptions/nonexistent",
+            "/api/v1/receptions/nonexistent",
             json={
                 "article_id": "A12345",
                 "quantite": 75,
@@ -186,7 +186,7 @@ class TestReceptionRouter:
         mock_delete_reception.return_value = mock_reception_model
 
         # Test the endpoint
-        response = client.delete(f"/receptions/{mock_reception_data['id']}")
+        response = client.delete(f"/api/v1/receptions/{mock_reception_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -201,7 +201,7 @@ class TestReceptionRouter:
         mock_delete_reception.return_value = None
 
         # Test the endpoint
-        response = client.delete("/receptions/nonexistent")
+        response = client.delete("/api/v1/receptions/nonexistent")
 
         # Verify response
         assert response.status_code == 404

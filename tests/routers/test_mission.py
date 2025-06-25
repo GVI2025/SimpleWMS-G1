@@ -96,7 +96,7 @@ class TestMissionRouter:
         mock_list_missions.return_value = mock_mission_list
 
         # Test the endpoint
-        response = client.get("/missions/")
+        response = client.get("/api/v1/missions/")
 
         # Verify response
         assert response.status_code == 200
@@ -111,7 +111,7 @@ class TestMissionRouter:
         mock_create_mission.return_value = mock_mission_model
 
         # Test the endpoint
-        response = client.post("/missions/", json={
+        response = client.post("/api/v1/missions/", json={
             "type": "Déplacement",
             "etat": "À faire",
             "article_id": "A12345",
@@ -124,7 +124,7 @@ class TestMissionRouter:
         })
 
         # Verify response
-        assert response.status_code == 200
+        assert response.status_code == 201
         assert response.json()["article_id"] == "A12345"
         assert response.json()["etat"] == "À faire"
 
@@ -137,7 +137,7 @@ class TestMissionRouter:
         mock_get_mission.return_value = mock_mission_model
 
         # Test the endpoint
-        response = client.get(f"/missions/{mock_mission_data['id']}")
+        response = client.get(f"/api/v1/missions/{mock_mission_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -152,7 +152,7 @@ class TestMissionRouter:
         mock_get_mission.return_value = None
 
         # Test the endpoint
-        response = client.get("/missions/nonexistent")
+        response = client.get("/api/v1/missions/nonexistent")
 
         # Verify response
         assert response.status_code == 404
@@ -168,7 +168,7 @@ class TestMissionRouter:
 
         # Test the endpoint
         response = client.put(
-            f"/missions/{mock_mission_data['id']}",
+            f"/api/v1/missions/{mock_mission_data['id']}",
             json={
                 "type": "Déplacement",
                 "etat": "En cours",
@@ -197,7 +197,7 @@ class TestMissionRouter:
 
         # Test the endpoint
         response = client.put(
-            "/missions/nonexistent",
+            "/api/v1/missions/nonexistent",
             json={
                 "type": "Déplacement",
                 "etat": "En cours",
@@ -221,7 +221,7 @@ class TestMissionRouter:
         mock_delete_mission.return_value = mock_mission_model
 
         # Test the endpoint
-        response = client.delete(f"/missions/{mock_mission_data['id']}")
+        response = client.delete(f"/api/v1/missions/{mock_mission_data['id']}")
 
         # Verify response
         assert response.status_code == 200
@@ -236,7 +236,7 @@ class TestMissionRouter:
         mock_delete_mission.return_value = None
 
         # Test the endpoint
-        response = client.delete("/missions/nonexistent")
+        response = client.delete("/api/v1/missions/nonexistent")
 
         # Verify response
         assert response.status_code == 404
