@@ -1,5 +1,5 @@
 from .mission import  Mission
-from .article import Article
+from .article import Article, CategorieArticle
 from .agent import Agent
 from .commande import Commande, LigneCommande
 from .emplacement import Emplacement
