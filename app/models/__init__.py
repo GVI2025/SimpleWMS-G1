@@ -6,6 +6,7 @@ from .emplacement import Emplacement
 from .implantation import Implantation
 from .reception import Reception
 from .salle import Salle
+from .reservation import Reservation
 
 __all__ = [
     "Mission",
@@ -16,5 +17,6 @@ __all__ = [
     "Emplacement",
     "Implantation",
     "Reception",
-    "Salle"
+    "Salle",
+    "Reservation"
 ]
