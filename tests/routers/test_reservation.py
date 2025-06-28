@@ -16,7 +16,8 @@ mock_reservation_data = {
     "date": str(current_datetime.date()),
     "heure": str(current_datetime.time()),
     "utilisateur": "Lune",
-    "id": "fdb6539a-f0a6-41c6-93a0-56083455aabe"
+    "id": "fdb6539a-f0a6-41c6-93a0-56083455aabe",
+    "commentaire": "Salut",
 }
 
 mock_reservation_model = ReservationModel(
@@ -24,7 +25,8 @@ mock_reservation_model = ReservationModel(
     date=current_datetime.date(),
     heure=current_datetime.time(),
     utilisateur="Lune",
-    id="fdb6539a-f0a6-41c6-93a0-56083455aabe"
+    id="fdb6539a-f0a6-41c6-93a0-56083455aabe",
+    commentaire="Salut",
 )
 
 mock_reservation_list = [
@@ -33,14 +35,16 @@ mock_reservation_list = [
         date=current_datetime.date(),
         heure=current_datetime.time(),
         utilisateur="Lune",
-        id="fdb6539a-f0a6-41c6-93a0-56083455aabe"
+        id="fdb6539a-f0a6-41c6-93a0-56083455aabe",
+        commentaire="Salut",
     ),
     ReservationModel(
         salle_id="7e76e987-9691-4080-8f93-6c456ff2c285",
         date=current_datetime.date(),
         heure=(current_datetime + timedelta(hours=1, minutes=20)).time(),
         utilisateur="Yohann",
-        id="2a185871-f1f1-4cac-b29c-2f47cb8e5549"
+        id="2a185871-f1f1-4cac-b29c-2f47cb8e5549",
+        commentaire="Bonjour",
     )
 ]
 
@@ -71,7 +75,8 @@ class TestReservationRouter:
             "salle_id": mock_reservation_data["salle_id"],
             "date": mock_reservation_data["date"],
             "heure": mock_reservation_data["heure"],
-            "utilisateur": mock_reservation_data["utilisateur"]
+            "utilisateur": mock_reservation_data["utilisateur"],
+            "commentaire": mock_reservation_data["commentaire"],
         })
 
         # Verify response
@@ -81,6 +86,7 @@ class TestReservationRouter:
         assert response.json()["heure"] == mock_reservation_data["heure"]
         assert response.json()["utilisateur"] == mock_reservation_data["utilisateur"]
         assert response.json()["id"] == mock_reservation_data["id"]
+        assert response.json()["commentaire"] == mock_reservation_data["commentaire"]
 
         # Verify service function was called correctly
         mock_create_reservation.assert_called_once()
@@ -95,7 +101,8 @@ class TestReservationRouter:
             "salle_id": mock_reservation_data["salle_id"],
             "date": mock_reservation_data["date"],
             "heure": mock_reservation_data["heure"],
-            "utilisateur": mock_reservation_data["utilisateur"]
+            "utilisateur": mock_reservation_data["utilisateur"],
+            "commentaire": mock_reservation_data["commentaire"],
         })
 
         # Verify response
@@ -124,6 +131,33 @@ class TestReservationRouter:
 
         # Test the endpoint
         response = client.get("/reservations/nonexistent")
+
+        # Verify response
+        assert response.status_code == 404
+        assert "not found" in response.json()["detail"]
+
+    @patch('app.routers.reservation.reservation_service.delete_reservation')
+    def test_delete_reservation_success(self, mock_delete_reservation):
+        # Configure mock
+        mock_delete_reservation.return_value = mock_reservation_model
+
+        # Test the endpoint
+        response = client.delete(f"/reservations/{mock_reservation_data['id']}")
+
+        # Verify response
+        assert response.status_code == 200
+        assert response.json()["id"] == mock_reservation_data["id"]
+
+        # Verify service function was called correctly
+        mock_delete_reservation.assert_called_once_with(ANY, mock_reservation_data["id"])
+
+    @patch('app.routers.reservation.reservation_service.delete_reservation')
+    def test_delete_reservation_not_found(self, mock_delete_reservation):
+        # Configure mock
+        mock_delete_reservation.return_value = None
+
+        # Test the endpoint
+        response = client.delete("/reservations/nonexistent")
 
         # Verify response
         assert response.status_code == 404

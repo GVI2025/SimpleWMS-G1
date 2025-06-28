@@ -32,3 +32,10 @@ def create_reservation(db: Session, reservation: ReservationCreate):
     db.commit()
     db.refresh(db_reservation)
     return db_reservation
+
+def delete_reservation(db: Session, reservation_id: str):
+    db_reservation = get_reservation(db, reservation_id)
+    if db_reservation:
+        db.delete(db_reservation)
+        db.commit()
+    return db_reservation
