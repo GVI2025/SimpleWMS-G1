@@ -5,6 +5,7 @@ from .commande import Commande, LigneCommande
 from .emplacement import Emplacement
 from .implantation import Implantation
 from .reception import Reception
+from .salle import Salle
 
 __all__ = [
     "Mission",
@@ -14,5 +15,6 @@ __all__ = [
     "LigneCommande",
     "Emplacement",
     "Implantation",
-    "Reception"
+    "Reception",
+    "Salle"
 ]

@@ -118,3 +118,6 @@ dmypy.json
 # OS
 .DS_Store
 Thumbs.db
+
+# alembic
+alembic/versions/*
