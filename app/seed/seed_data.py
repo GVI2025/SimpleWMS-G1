@@ -7,8 +7,10 @@ from app.models.emplacement import Emplacement, TypeEmplacement
 from app.models.implantation import Implantation
 from app.models.mission import Mission, TypeMission, EtatMission
 from app.models.reception import Reception
+from app.models.salle import Salle
+from app.models.reservation import Reservation
 
-from datetime import datetime, date
+from datetime import datetime, date, time
 from sqlalchemy.exc import IntegrityError
 
 def seed():
@@ -921,8 +923,43 @@ def seed():
             ),
         ]
 
+        # === Salles ===
+        salles = [
+            Salle(
+                id="c0a66486-49e2-4716-b1e3-ed6af8e45006",
+                localisation="Louvre Lens",
+                nom="Salle Jean Souvraz",
+                capacite=100,
+            ),
+            Salle(
+                id="d114217e-000c-4371-9ba8-3b7cd940db92",
+                localisation="Louvre Lens",
+                nom="Salle Jacques Prévert",
+                capacite=200,
+            )
+        ]
+
+        # === Reservations ===
+        reservations = [
+            Reservation(
+                id="6bf62796-2108-43a0-a30a-770f06bbd64a",
+                salle_id="c0a66486-49e2-4716-b1e3-ed6af8e45006",
+                date=date(2025, 6, 26),
+                heure=time(12, 30, 50),
+                utilisateur="Cyril",
+            ),
+            Reservation(
+                id="608cec0e-32aa-40d2-b1f5-5d9d299ed7b8",
+                salle_id="c0a66486-49e2-4716-b1e3-ed6af8e45006",
+                date=date(2025, 6, 26),
+                heure=time(15, 30, 50),
+                utilisateur="Cyril",
+            )
+        ]
+
         # Ajout global
-        db.add_all(articles + agents + commandes + lignes_commandes + emplacements + implantations + missions + receptions)
+        db.add_all(articles + agents + commandes + lignes_commandes + emplacements +
+        implantations + missions + receptions + salles + reservations)
         db.commit()
         print("Données de test insérées avec succès.")
 

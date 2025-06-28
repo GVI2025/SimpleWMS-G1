@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.routers import article, agent, emplacement, commande, implantation, reception, mission
+from app.routers import article, agent, emplacement, commande, implantation, reception, mission, salle, reservation
 
 app = FastAPI(
     title="A simple WMS",
@@ -15,6 +15,8 @@ app.include_router(commande.router)
 app.include_router(implantation.router)
 app.include_router(reception.router)
 app.include_router(mission.router)
+app.include_router(salle.router)
+app.include_router(reservation.router)
 
 @app.get("/")
 async def root():
