@@ -12,3 +12,4 @@ class Reservation(Base):
     date = Column(Date, nullable=False)
     heure = Column(Time, nullable=False)
     utilisateur = Column(String, nullable=False)
+    commentaire = Column(String, nullable=False, default="")
