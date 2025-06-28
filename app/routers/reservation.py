@@ -14,7 +14,10 @@ def list_reservations(skip: int = 0, limit: int = 100, db: Session = Depends(get
 
 @router.post("/", response_model=ReservationRead, status_code=201)
 def create_reservation(reservation: ReservationCreate, db: Session = Depends(get_db)):
-    return reservation_service.create_reservation(db, reservation)
+    reservation = reservation_service.create_reservation(db, reservation)
+    if not reservation:
+      raise HTTPException(status_code=400, detail="Créneau déjà réservé")
+    return reservation
 
 @router.get("/{reservation_id}", response_model=ReservationRead)
 def get_reservation(reservation_id: str, db: Session = Depends(get_db)):
