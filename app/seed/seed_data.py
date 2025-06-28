@@ -936,6 +936,7 @@ def seed():
                 localisation="Louvre Lens",
                 nom="Salle Jacques Prévert",
                 capacite=200,
+                disponible=False
             )
         ]
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from app.schemas.salle import SalleRead, SalleCreate, SalleUpdate
 from app.services import salle as salle_service
@@ -9,8 +9,8 @@ from app.database.database import get_db
 router = APIRouter(prefix="/salles", tags=["Salles"])
 
 @router.get("/", response_model=List[SalleRead])
-def list_salles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return salle_service.list_salles(db, skip, limit)
+def list_salles(skip: int = 0, limit: int = 100, disponible: Optional[bool] = None, db: Session = Depends(get_db)):
+    return salle_service.list_salles(db, skip, limit, disponible)
 
 @router.post("/", response_model=SalleRead, status_code=201)
 def create_salle(salle: SalleCreate, db: Session = Depends(get_db)):

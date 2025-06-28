@@ -5,8 +5,11 @@ from app.schemas.salle import SalleCreate, SalleUpdate
 def get_salle(db: Session, salle_id: str):
     return db.query(SalleModel).filter(SalleModel.id == salle_id).first()
 
-def list_salles(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(SalleModel).offset(skip).limit(limit).all()
+def list_salles(db: Session, skip: int = 0, limit: int = 100, disponible: bool | None = None):
+    query = db.query(SalleModel)
+    if disponible is not None:
+        query = query.filter(SalleModel.disponible == disponible)
+    return query.offset(skip).limit(limit).all()
 
 def create_salle(db: Session, salle: SalleCreate):
     db_salle = SalleModel(**salle.dict())
