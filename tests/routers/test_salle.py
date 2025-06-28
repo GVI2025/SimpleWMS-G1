@@ -13,28 +13,32 @@ mock_salle_data = {
     "nom": "Salle1",
     "capacite": 5,
     "localisation": "IG2I",
-    "id": "7e76e987-9691-4080-8f93-6c456ff2c285"
+    "id": "7e76e987-9691-4080-8f93-6c456ff2c285",
+    "disponible": True
 }
 
 mock_salle_model = SalleModel(
     id="7e76e987-9691-4080-8f93-6c456ff2c285",
     nom="Salle1",
     capacite=5,
-    localisation="IG2I"
+    localisation="IG2I",
+    disponible=True,
 )
 
 mock_salle_update_data = {
     "nom": "Salle3",
     "capacite": 6,
     "localisation": "IG2I",
-    "id": "7e76e987-9691-4080-8f93-6c456ff2c285"
+    "id": "7e76e987-9691-4080-8f93-6c456ff2c285",
+    "disponible": True,
 }
 
 mock_salle_update = SalleModel(
     id="7e76e987-9691-4080-8f93-6c456ff2c285",
     nom="Salle3",
     capacite=6,
-    localisation="IG2I"
+    localisation="IG2I",
+    disponible=True,
 )
 
 mock_salle_list = [
@@ -42,13 +46,25 @@ mock_salle_list = [
         id="7e76e987-9691-4080-8f93-6c456ff2c285",
         nom="Salle1",
         capacite=5,
-        localisation="IG2I"
+        localisation="IG2I",
+        disponible=True,
     ),
     SalleModel(
         id="b2a1b0b1-aacc-4b26-a70a-ae17ce4f61d6",
         nom="Salle2",
         capacite=10,
-        localisation="IG2I"
+        localisation="IG2I",
+        disponible=False,
+    )
+]
+
+mock_salle_list_filter = [
+    SalleModel(
+        id="7e76e987-9691-4080-8f93-6c456ff2c285",
+        nom="Salle1",
+        capacite=5,
+        localisation="IG2I",
+        disponible=True,
     )
 ]
 
@@ -68,6 +84,21 @@ class TestSalleRouter:
 
         # Verify service function was called
         mock_list_salles.assert_called_once()
+    
+    @patch('app.routers.salle.salle_service.list_salles')
+    def test_list_salles(self, mock_list_salles):
+        # Configure mock
+        mock_list_salles.return_value = mock_salle_list_filter
+
+        # Test the endpoint
+        response = client.get("/salles?disponible=True")
+
+        # Verify response
+        assert response.status_code == 200
+        assert len(response.json()) == 1
+
+        # Verify service function was called
+        mock_list_salles.assert_called_once()
 
     @patch('app.routers.salle.salle_service.create_salle')
     def test_create_salle_success(self, mock_create_salle):
@@ -78,7 +109,8 @@ class TestSalleRouter:
         response = client.post("/salles/", json={
             "nom": mock_salle_data["nom"],
             "capacite": mock_salle_data["capacite"],
-            "localisation": mock_salle_data["localisation"]
+            "localisation": mock_salle_data["localisation"],
+            "disponible": mock_salle_data["disponible"],
         })
 
         # Verify response
@@ -130,6 +162,7 @@ class TestSalleRouter:
                 "nom": mock_salle_update_data["nom"],
                 "capacite": mock_salle_update_data["capacite"],
                 "localisation": mock_salle_update_data["localisation"],
+                "disponible": mock_salle_update_data["disponible"],
             }
         )
 
@@ -154,6 +187,7 @@ class TestSalleRouter:
                 "nom": mock_salle_update_data["nom"],
                 "capacite": mock_salle_update_data["capacite"],
                 "localisation": mock_salle_update_data["localisation"],
+                "disponible": mock_salle_update_data["disponible"],
             }
         )
 
