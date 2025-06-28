@@ -128,3 +128,30 @@ class TestReservationRouter:
         # Verify response
         assert response.status_code == 404
         assert "not found" in response.json()["detail"]
+
+    @patch('app.routers.reservation.reservation_service.delete_reservation')
+    def test_delete_reservation_success(self, mock_delete_reservation):
+        # Configure mock
+        mock_delete_reservation.return_value = mock_reservation_model
+
+        # Test the endpoint
+        response = client.delete(f"/reservations/{mock_reservation_data['id']}")
+
+        # Verify response
+        assert response.status_code == 200
+        assert response.json()["id"] == mock_reservation_data["id"]
+
+        # Verify service function was called correctly
+        mock_delete_reservation.assert_called_once_with(ANY, mock_reservation_data["id"])
+
+    @patch('app.routers.reservation.reservation_service.delete_reservation')
+    def test_delete_reservation_not_found(self, mock_delete_reservation):
+        # Configure mock
+        mock_delete_reservation.return_value = None
+
+        # Test the endpoint
+        response = client.delete("/reservations/nonexistent")
+
+        # Verify response
+        assert response.status_code == 404
+        assert "not found" in response.json()["detail"]
